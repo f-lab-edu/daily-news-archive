@@ -22,7 +22,7 @@ const TabContent = ({ content }: TabContentProps) => {
           width={200}
           height={200}
           alt={content.title}
-          className="w-24 h-auto object-cover"
+          className="w-24 object-cover max-h-20"
         />
       )}
     </article>
