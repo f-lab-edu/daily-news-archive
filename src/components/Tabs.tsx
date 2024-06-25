@@ -15,7 +15,7 @@ export interface NewsData {
   author: string | null;
   title: string;
   description: string | null;
-  url: string | null;
+  url: string;
   urlToImage: string | null;
   publishedAt: string;
   content: string;
@@ -32,8 +32,8 @@ const TABS: { label: string; content: string }[] = [
 
 const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
   return (
-    <div className="tabs">
-      <div className="tab-list">
+    <>
+      <div className="pt-2 pb-6">
         {TABS.map(tab => (
           <Tab
             key={tab.label}
@@ -45,10 +45,14 @@ const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
       </div>
       <div className="tab-contents none active:block">
         {newsList?.map((news: NewsData) => {
-          return <TabContent key={news.title} content={news} />;
+          return (
+            <button key={news.title} onClick={() => window.open(news.url)}>
+              <TabContent content={news} />
+            </button>
+          );
         })}
       </div>
-    </div>
+    </>
   );
 };
 

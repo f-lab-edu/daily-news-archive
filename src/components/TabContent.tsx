@@ -14,7 +14,7 @@ const TabContent = ({ content }: TabContentProps) => {
       className="flex justify-between items-center gap-2 border-b rounded-sm py-4"
     >
       <section>
-        <h2 className="text-sm">{content.title}</h2>
+        <h2 className="text-sm text-left">{content.title}</h2>
       </section>
       {content.urlToImage && (
         <Image
