@@ -5,7 +5,7 @@ interface TagProps {
 
 const Tag = ({ content, style }: TagProps) => {
   return (
-    <div className={`${style && style}`}>
+    <div className={`${style}`}>
       {content && <p className="text-sm px-2 py-1">{content}</p>}
     </div>
   );
