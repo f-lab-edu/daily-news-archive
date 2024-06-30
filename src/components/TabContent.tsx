@@ -11,7 +11,7 @@ const TabContent = ({ content }: TabContentProps) => {
   return (
     <article
       key={content.title}
-      className="flex justify-between items-center gap-2 border-b rounded-sm py-4"
+      className="flex justify-between items-center gap-2 border-t rounded-sm py-4"
     >
       <section>
         <h2 className="text-sm text-left">{content.title}</h2>
