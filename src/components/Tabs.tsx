@@ -1,5 +1,7 @@
+import TopKeyWordChart from '@/components/TopKeyWordChart';
 import Tab from './Tab';
 import TabContent from './TabContent';
+import extractTopKeywords from '@/utils/extractTopKeywords';
 
 interface TabsProps {
   activeTab: string;
@@ -21,19 +23,25 @@ export interface NewsData {
   content: string;
 }
 
-const TABS: { label: string; content: string }[] = [
-  { label: 'business', content: 'This is the content of business' },
-  { label: 'entertainment', content: 'This is the content of entertainment' },
-  { label: 'health', content: 'This is the content of health' },
-  { label: 'science', content: 'This is the content of science' },
-  { label: 'sports', content: 'This is the content of sports' },
-  { label: 'technology', content: 'This is the content of technology' }
+const TABS: { label: string }[] = [
+  { label: 'business' },
+  { label: 'entertainment' },
+  { label: 'health' },
+  { label: 'science' },
+  { label: 'sports' },
+  { label: 'technology' }
 ];
 
 const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
+  const topKeywords = extractTopKeywords(newsList);
+
+  const sortNewsByKeyword = (keyword: string) => {
+    return newsList.filter((news: NewsData) => news.title.includes(keyword));
+  };
+
   return (
     <>
-      <div className="pt-2 pb-6">
+      <section className="py-4 flex justify-between overflow-auto">
         {TABS.map(tab => (
           <Tab
             key={tab.label}
@@ -42,8 +50,15 @@ const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
             isActive={tab.label === activeTab}
           />
         ))}
-      </div>
-      <div className="tab-contents none active:block">
+      </section>
+      <section className="py-5">
+        <TopKeyWordChart
+          activeTab={activeTab}
+          topKeywords={topKeywords}
+          onClick={sortNewsByKeyword}
+        />
+      </section>
+      <section className="tab-contents none active:block">
         {newsList?.map((news: NewsData) => {
           return (
             <button key={news.title} onClick={() => window.open(news.url)}>
@@ -51,7 +66,7 @@ const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
             </button>
           );
         })}
-      </div>
+      </section>
     </>
   );
 };

@@ -1,8 +1,6 @@
 import Tabs, { NewsData } from '@/components/Tabs';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import extractTopKeywords from '@/utils/extractTopKeywords';
-import Tag from '@/components/Tag';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('business');
@@ -22,14 +20,6 @@ export default function Home() {
     queryFn: fetchNews
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error.message}</h1>;
-
-  const topKeywords = extractTopKeywords(data.articles);
-  topKeywords.forEach(({ keyword, count }) => {
-    console.log(`${keyword}: ${count}회`);
-  });
-
   const formatArticleImage = () => {
     return data.articles.map((article: NewsData) => {
       if (!article.urlToImage) return article;
@@ -45,21 +35,14 @@ export default function Home() {
     });
   };
 
+  if (isLoading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error: {error.message}</h1>;
+
   return (
     <main className="p-5">
       <h1 className="text-center text-lg fonft-bold pb-5">
         Daily News Archive
       </h1>
-
-      <div className="flex gap-2">
-        {topKeywords.map(obj => (
-          <Tag
-            key={obj.keyword}
-            content={obj.keyword}
-            style="text-[#45CDCD] bg-[#EBFBF6] rounded-md w-max"
-          />
-        ))}
-      </div>
 
       <Tabs
         activeTab={activeTab}

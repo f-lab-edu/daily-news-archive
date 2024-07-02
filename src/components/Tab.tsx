@@ -7,7 +7,7 @@ interface TabProps {
 const Tab = ({ label, onClick, isActive }: TabProps) => {
   return (
     <button
-      className={`px-5 pt-3 cursor-pointer border-b-2 ${isActive ? 'border-b-2px border-[#007bff]' : ''}`}
+      className={`px-5 cursor-pointer border-b-2 ${isActive ? 'border-b-2px border-[#007bff]' : ''}`}
       onClick={onClick}
     >
       {label}
