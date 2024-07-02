@@ -32,32 +32,6 @@ const data: Data = {
   ]
 };
 
-const options = {
-  responsive: true,
-  plugins: {
-    datalabels: {
-      color: '#fff',
-      formatter: (value: number, ctx: any) => {
-        let sum = 0;
-        let dataArr = ctx.chart.data.datasets[0].data;
-        dataArr.map((data: number) => {
-          sum += data;
-        });
-        let percentage = ((value * 100) / sum).toFixed(2) + '%';
-        return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
-      },
-      font: {
-        weight: 'bold' as const,
-        size: 12
-      },
-      anchor: 'center' as const,
-      align: 'center' as const,
-      offset: 0,
-      rotation: 0
-    }
-  }
-};
-
 interface TopKeyWord {
   keyword: string;
   count: number;
@@ -66,9 +40,40 @@ interface TopKeyWord {
 interface TopKeyWordChartProps {
   activeTab: string;
   topKeywords: TopKeyWord[];
+  onClick: (word: string) => void;
 }
 
-const TopKeyWordChart = ({ activeTab, topKeywords }: TopKeyWordChartProps) => {
+const TopKeyWordChart = ({
+  activeTab,
+  topKeywords,
+  onClick
+}: TopKeyWordChartProps) => {
+  const options = {
+    responsive: true,
+    plugins: {
+      datalabels: {
+        color: '#fff',
+        formatter: (value: number, ctx: any) => {
+          return ctx.chart.data.labels[ctx.dataIndex] + '\n' + value + '회';
+        },
+        font: {
+          weight: 'bold' as const,
+          size: 12
+        },
+        anchor: 'center' as const,
+        align: 'center' as const,
+        offset: 0,
+        rotation: 0
+      }
+    },
+    onClick: (e: any, item: any) => {
+      if (item.length === 0) return;
+      const index = item[0].index;
+      const keyword = data.labels[index];
+      onClick(keyword);
+    }
+  };
+
   const splitArrayByKey = (data: TopKeyWord[]) => {
     const keywords: string[] = [];
     const counts: number[] = [];

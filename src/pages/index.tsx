@@ -20,9 +20,6 @@ export default function Home() {
     queryFn: fetchNews
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error.message}</h1>;
-
   const formatArticleImage = () => {
     return data.articles.map((article: NewsData) => {
       if (!article.urlToImage) return article;
@@ -37,6 +34,9 @@ export default function Home() {
       return { ...article, urlToImage: null };
     });
   };
+
+  if (isLoading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error: {error.message}</h1>;
 
   return (
     <main className="p-5">

@@ -35,6 +35,10 @@ const TABS: { label: string }[] = [
 const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
   const topKeywords = extractTopKeywords(newsList);
 
+  const sortNewsByKeyword = (keyword: string) => {
+    return newsList.filter((news: NewsData) => news.title.includes(keyword));
+  };
+
   return (
     <>
       <section className="py-4 flex justify-between overflow-auto">
@@ -48,7 +52,11 @@ const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
         ))}
       </section>
       <section className="py-5">
-        <TopKeyWordChart activeTab={activeTab} topKeywords={topKeywords} />
+        <TopKeyWordChart
+          activeTab={activeTab}
+          topKeywords={topKeywords}
+          onClick={sortNewsByKeyword}
+        />
       </section>
       <section className="tab-contents none active:block">
         {newsList?.map((news: NewsData) => {
