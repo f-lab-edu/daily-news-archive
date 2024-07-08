@@ -70,11 +70,7 @@ const TopKeyWordChart = ({ topKeywords, onClick }: TopKeyWordChartProps) => {
     }
   };
 
-  return (
-    <>
-      <Doughnut data={{ labels, datasets }} options={options} />
-    </>
-  );
+  return <Doughnut data={{ labels, datasets }} options={options} />;
 };
 
 export default TopKeyWordChart;
