@@ -1,6 +1,7 @@
 import Tabs, { NewsData } from '@/components/Tabs';
 import {
   dehydrate,
+  DehydratedState,
   HydrationBoundary,
   QueryClient,
   useQuery
@@ -32,11 +33,11 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Home({
-  dehydratedState
-}: {
-  dehydratedState: Readonly<any>;
-}) {
+interface HomeProps {
+  readonly dehydratedState: DehydratedState;
+}
+
+export default function Home({ dehydratedState }: HomeProps) {
   const [activeTab, setActiveTab] = useState<string>('business');
 
   const { data, error, isLoading } = useQuery({
