@@ -53,7 +53,6 @@ const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
       </section>
       <section className="py-5">
         <TopKeyWordChart
-          activeTab={activeTab}
           topKeywords={topKeywords}
           onClick={sortNewsByKeyword}
         />

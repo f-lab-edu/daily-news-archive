@@ -1,23 +1,43 @@
 import Tabs, { NewsData } from '@/components/Tabs';
-import { useQuery } from '@tanstack/react-query';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+  useQuery
+} from '@tanstack/react-query';
 import { useState } from 'react';
 
-export default function Home() {
-  const [activeTab, setActiveTab] = useState<string>('business');
+const fetchNews = async (category: string) => {
+  const response = await fetch(
+    `https://newsapi.org/v2/top-headlines?country=kr&category=${category}&pageSize=100&apiKey=5369507a287b4e68b8f709bf96346024`
+  );
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
 
-  const fetchNews = async () => {
-    const response = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=kr&category=${activeTab}&pageSize=100&apiKey=5369507a287b4e68b8f709bf96346024`
-    );
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['posts'],
+    queryFn: () => fetchNews('business')
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient)
     }
-    return response.json();
   };
+}
+
+export default function Home({ dehydratedState }: { dehydratedState: any }) {
+  const [activeTab, setActiveTab] = useState<string>('business');
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['getNews', activeTab],
-    queryFn: fetchNews
+    queryFn: () => fetchNews(activeTab)
   });
 
   const formatArticleImage = () => {
@@ -44,11 +64,13 @@ export default function Home() {
         Daily News Archive
       </h1>
 
-      <Tabs
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        newsList={formatArticleImage()}
-      />
+      <HydrationBoundary state={dehydratedState}>
+        <Tabs
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          newsList={formatArticleImage()}
+        />
+      </HydrationBoundary>
     </main>
   );
 }
