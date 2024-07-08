@@ -32,7 +32,11 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Home({ dehydratedState }: { dehydratedState: any }) {
+export default function Home({
+  dehydratedState
+}: {
+  dehydratedState: Readonly<any>;
+}) {
   const [activeTab, setActiveTab] = useState<string>('business');
 
   const { data, error, isLoading } = useQuery({
