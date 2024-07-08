@@ -5,57 +5,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '*.com',
+        hostname: '*.*',
         port: '',
       },
       {
         protocol: 'http',
-        hostname: '*.com',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.kr',
-        port: '',
-      },
-      {
-        protocol: 'http',
-        hostname: '*.kr',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.net',
-        port: '',
-      },
-      {
-        protocol: 'http',
-        hostname: '*.net',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.be',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.de',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.uk',
-        port: '',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.io',
-        port: '',
-      },
-      {
-        protocol: 'http',
-        hostname: '*.io',
+        hostname: '*.*',
         port: '',
       },
     ],
