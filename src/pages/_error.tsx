@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { NextPageContext } from 'next/types';
 
-const Error = ({ statusCode }: { statusCode: number }) => {
+const CustomError = ({ statusCode }: { statusCode: number }) => {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
       <h1 className="text-6xl font-bold text-red-600 mb-4">
-        {statusCode ? statusCode : 'Error'}
+        {statusCode || 'Error'}
       </h1>
       <p className="text-xl text-gray-700 mb-4">
         {statusCode
@@ -21,9 +21,11 @@ const Error = ({ statusCode }: { statusCode: number }) => {
   );
 };
 
-Error.getInitialProps = ({ res, err }: NextPageContext) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-  return { statusCode };
+CustomError.getInitialProps = ({ res, err }: NextPageContext) => {
+  if (res) {
+    return { statusCode: res.statusCode };
+  }
+  return err ? err.statusCode : 404;
 };
 
-export default Error;
+export default CustomError;
