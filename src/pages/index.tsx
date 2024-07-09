@@ -1,4 +1,5 @@
-import Tabs, { NewsData } from '@/components/Tabs';
+import Tabs from '@/components/Tabs';
+import { getNews } from '@/lib/newsApi';
 import {
   dehydrate,
   DehydratedState,
@@ -8,36 +9,12 @@ import {
 } from '@tanstack/react-query';
 import { useState } from 'react';
 
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-
-const fetchNews = async (category: string): Promise<NewsData[]> => {
-  const response = await fetch(
-    `https://newsapi.org/v2/top-headlines?country=kr&category=${category}&pageSize=100&apiKey=${API_KEY}`
-  );
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  const data = await response.json();
-  return data.articles.map(formatArticle);
-};
-
-const formatArticle = (article: NewsData): NewsData => {
-  if (!article.urlToImage) return article;
-  if (
-    article.urlToImage.startsWith('http') ||
-    article.urlToImage.startsWith('https')
-  ) {
-    return article;
-  }
-  return { ...article, urlToImage: null };
-};
-
 export async function getServerSideProps() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ['news', 'business'],
-    queryFn: () => fetchNews('business')
+    queryFn: () => getNews('business')
   });
 
   return {
@@ -56,7 +33,7 @@ export default function Home({ dehydratedState }: HomeProps) {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['news', activeTab],
-    queryFn: () => fetchNews(activeTab)
+    queryFn: () => getNews(activeTab)
   });
 
   if (isLoading) return <h1>Loading...</h1>;
