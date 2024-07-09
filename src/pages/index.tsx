@@ -1,3 +1,4 @@
+import Skeleton from '@/components/Skeleton';
 import Tabs from '@/components/Tabs';
 import { getNews } from '@/lib/newsApi';
 import {
@@ -36,7 +37,7 @@ export default function Home({ dehydratedState }: HomeProps) {
     queryFn: () => getNews(activeTab)
   });
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Skeleton />;
   if (error instanceof Error) return <h1>Error: {error.message}</h1>;
 
   return (
