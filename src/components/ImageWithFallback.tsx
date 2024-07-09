@@ -10,14 +10,14 @@ interface FallbackImageProps {
   className?: string;
 }
 
-const FallbackImage: React.FC<FallbackImageProps> = ({
+const FallbackImage = ({
   src,
   alt,
   fallbackSrc,
   width,
   height,
   className
-}) => {
+}: FallbackImageProps) => {
   const [imageSrc, setImageSrc] = useState(src);
   const [loading, setLoading] = useState(true);
   const [errorCount, setErrorCount] = useState(0);
