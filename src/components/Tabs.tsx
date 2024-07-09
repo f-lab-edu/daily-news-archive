@@ -51,13 +51,13 @@ const Tabs = ({ activeTab, setActiveTab, newsList }: TabsProps) => {
           />
         ))}
       </section>
-      <section className="py-5">
+      <section className="py-5 flex justify-center max-w-96 m-auto">
         <TopKeyWordChart
           topKeywords={topKeywords}
           onClick={sortNewsByKeyword}
         />
       </section>
-      <section className="tab-contents none active:block">
+      <section className="tab-contents none active:block flex flex-col">
         {newsList?.map((news: NewsData) => {
           return (
             <button key={news.title} onClick={() => window.open(news.url)}>

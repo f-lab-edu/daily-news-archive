@@ -1,7 +1,7 @@
 'use client';
 
+import ImageWithFallback from '@/components/ImageWithFallback';
 import { NewsData } from '@/components/Tabs';
-import Image from 'next/image';
 
 interface TabContentProps {
   content: NewsData;
@@ -9,20 +9,18 @@ interface TabContentProps {
 
 const TabContent = ({ content }: TabContentProps) => {
   return (
-    <article
-      key={content.title}
-      className="flex justify-between items-center gap-2 border-t rounded-sm py-4"
-    >
+    <article className="flex justify-between items-center gap-2 border-t rounded-sm py-4">
       <section>
         <h2 className="text-sm text-left">{content.title}</h2>
       </section>
       {content.urlToImage && (
-        <Image
+        <ImageWithFallback
           src={content.urlToImage}
+          alt={content.title}
+          fallbackSrc="/olaf.png"
           width={200}
           height={200}
-          alt={content.title}
-          className="w-24 object-cover max-h-20"
+          className="min-w-24 w-24 object-cover max-h-20"
         />
       )}
     </article>
